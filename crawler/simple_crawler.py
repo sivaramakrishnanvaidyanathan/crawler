@@ -5,6 +5,7 @@ import requests, sys, json
 def crawl(wiki_url):
     response = requests.post(url= wiki_url)
     numLinksToCrawl = 0
+    crawl_data = []
 
     if response.status_code == 200:
         response_html = response.text
@@ -15,12 +16,16 @@ def crawl(wiki_url):
             for link in links:
                 try:
                     data = json.dumps({"href":link["href"], "title": link["title"]})
+                    crawl_data.append(data)
                     print data
                     numLinksToCrawl += 1
                 except:
-                    print "non crawlable: " + link
+                    print "non crawlable: " + str(link)
 
     print "numLinksToCrawl: " + str(numLinksToCrawl)
+    print "crawl_data\n"
+    for crawl_link in crawl_data:
+        print "crawl_link: " + crawl_link
 
 
 
